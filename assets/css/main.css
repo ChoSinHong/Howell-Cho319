@@ -1,0 +1,149 @@
+/* ===================================
+   Personal Portfolio Website - Main Styles
+   Author: Howell Cho
+   
+   Modular CSS Architecture:
+   - variables.css: CSS custom properties and design tokens
+   - base.css: Reset, base styles, and typography
+   - navigation.css: Navigation and header components
+   - components.css: Reusable UI components
+   - home.css: Home page specific styles
+   - pages.css: Other pages styles (About, Portfolio, Projects, Contact)
+   - responsive.css: Media queries and responsive design
+   
+   Benefits of this approach:
+   - Better organization and maintainability
+   - Easier to find and modify specific styles
+   - Reduced file size for individual components
+   - Better caching strategies
+   - Easier collaboration and version control
+   =================================== */
+
+/* Import all modular CSS files in the correct order */
+
+/* 1. Variables first - defines all design tokens */
+@import url('variables.css');
+
+/* 2. Base styles - reset, typography, and foundational styles */
+@import url('base.css');
+
+/* 3. Navigation - header and navigation components */
+@import url('navigation.css');
+
+/* 4. Reusable components - buttons, cards, forms, etc. */
+@import url('components.css');
+
+/* 5. Home page specific styles */
+@import url('home.css');
+
+/* 6. Other pages styles */
+@import url('pages.css');
+
+/* 7. Responsive design - media queries last to override as needed */
+@import url('responsive.css');
+
+/* ===== CRITICAL INLINE STYLES ===== */
+/* These styles are kept inline for performance - they prevent FOUC */
+/* Navigation styles are handled in navigation.css */
+
+/* ===== FALLBACK STYLES ===== */
+/* These styles provide fallbacks if CSS imports fail */
+
+@supports not (backdrop-filter: blur(10px)) {
+    .nav-container {
+        background: rgba(26, 23, 23, 0.98); /* Fallback - keep hardcoded for compatibility */
+    }
+}
+
+/* Fallback for older browsers that don't support CSS Grid */
+@supports not (display: grid) {
+    .content-grid {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    
+    .grid-card {
+        flex: 1 1 300px;
+        margin: 1rem;
+    }
+}
+
+/* ===== PERFORMANCE OPTIMIZATIONS ===== */
+
+/* Optimize font loading */
+@font-face {
+    font-family: 'System';
+    src: local('.SFNSText-Regular'), local('.HelveticaNeueDeskInterface-Regular'), local('.LucidaGrandeUI'), local('Ubuntu'), local('Segoe UI'), local('Roboto'), local('DroidSans'), local('Tahoma');
+    font-display: swap;
+}
+
+/* Optimize animations for better performance */
+* {
+    will-change: auto;
+}
+
+.grid-card:hover,
+.btn:hover,
+.portfolio-item:hover,
+.project-card:hover {
+    will-change: transform;
+}
+
+/* ===== ACCESSIBILITY ENHANCEMENTS ===== */
+/* Focus styles are handled in base.css */
+
+/* Reduced motion support is handled in variables.css */
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    :root {
+        --border-primary: rgba(255, 255, 255, 0.8);
+        --card-bg-primary: rgba(0, 0, 0, 0.8);
+        --text-secondary: rgba(255, 255, 255, 0.95);
+    }
+}
+
+/* ===== BROWSER-SPECIFIC FIXES ===== */
+
+/* Safari-specific fixes */
+@supports (-webkit-appearance: none) {
+    .nav-container {
+        -webkit-backdrop-filter: blur(10px);
+    }
+}
+
+/* Firefox-specific fixes */
+@-moz-document url-prefix() {
+    .grid-card {
+        background-clip: padding-box;
+    }
+}
+
+/* ===== LOADING STATES ===== */
+
+/* Show loading state while CSS files are loading */
+.loading-css {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.css-loaded .loading-css {
+    opacity: 1;
+}
+
+/* ===== DEBUG STYLES (Remove in production) ===== */
+
+/* Uncomment for debugging layout issues */
+/*
+.debug * {
+    outline: 1px solid red;
+}
+
+.debug .grid-card {
+    outline: 2px solid blue;
+}
+
+.debug .nav-container {
+    outline: 2px solid green;
+}
+*/
